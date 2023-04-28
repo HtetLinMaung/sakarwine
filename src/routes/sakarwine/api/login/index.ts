@@ -2,8 +2,10 @@ import { brewBlankExpressFunc, throwErrorResponse } from "code-alchemy";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../../../../models/User";
+import connectMongoose from "../../../../utils/connect-mongoose";
 
 export default brewBlankExpressFunc(async (req, res) => {
+  await connectMongoose();
   const { email, password } = req.body;
 
   // Check if the user exists

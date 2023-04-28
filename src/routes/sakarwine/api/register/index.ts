@@ -2,6 +2,7 @@ import { brewBlankExpressFunc, throwErrorResponse } from "code-alchemy";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import User from "../../../../models/User";
+import connectMongoose from "../../../../utils/connect-mongoose";
 
 const emailIsValid = (email: string) => {
   return validator.isEmail(email);
@@ -20,6 +21,7 @@ const usernameIsValid = (username: string) => {
 };
 
 export default brewBlankExpressFunc(async (req, res) => {
+  await connectMongoose();
   const {
     email,
     password,
@@ -66,7 +68,7 @@ export default brewBlankExpressFunc(async (req, res) => {
     username,
     firstName,
     lastName,
-    fullName: `${firstName} ${lastName}`,
+    fullName: firstName && lastName ? `${firstName} ${lastName}` : "",
     bio,
     location,
     language,
@@ -76,7 +78,7 @@ export default brewBlankExpressFunc(async (req, res) => {
   await newUser.save();
 
   res.status(201).json({
-    code: 200,
+    code: 201,
     message: "User registered successfully",
     data: newUser,
   });

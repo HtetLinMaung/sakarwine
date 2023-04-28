@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface IRoom extends Document {
   name: string;
+  type: string;
   participants: string[]; // Array of user IDs
   createdAt: Date;
   updatedAt: Date;
@@ -9,7 +10,13 @@ export interface IRoom extends Document {
 
 const roomSchema: Schema = new Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, default: "" },
+    type: {
+      type: String,
+      enum: ["group", "direct"],
+      required: true,
+      default: "group",
+    },
     participants: [
       {
         type: Schema.Types.ObjectId,

@@ -2,12 +2,14 @@ import { brewBlankExpressFunc, throwErrorResponse } from "code-alchemy";
 import verifyToken from "../../../../../../utils/verify-token";
 import Room from "../../../../../../models/Room";
 import Message from "../../../../../../models/Message";
+import connectMongoose from "../../../../../../utils/connect-mongoose";
 
 export default brewBlankExpressFunc(async (req, res) => {
   const method = req.method.toLowerCase();
   if (method != "get") {
     return res.sendStatus(404);
   }
+  await connectMongoose();
   const decoded = verifyToken(req);
   const roomId = req.params._id;
   const room = await Room.findById(roomId);

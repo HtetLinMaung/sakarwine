@@ -34,6 +34,7 @@
     "jsonwebtoken": "^9.0.0",
     "mime": "^3.0.0",
     "mongoose": "^7.0.4",
+    "starless-async": "^1.1.2",
     "starless-logger": "^1.0.3",
     "validator": "^13.9.0"
   }

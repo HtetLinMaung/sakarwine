@@ -2,13 +2,14 @@ import { brewBlankExpressFunc, throwErrorResponse } from "code-alchemy";
 import verifyToken from "../../../../../../../../utils/verify-token";
 import Message from "../../../../../../../../models/Message";
 import MessageReaction from "../../../../../../../../models/MessageReaction";
+import connectMongoose from "../../../../../../../../utils/connect-mongoose";
 
 export default brewBlankExpressFunc(async (req, res) => {
   const method = req.method.toLowerCase();
   if (method != "post") {
     return res.sendStatus(404);
   }
-
+  await connectMongoose();
   const decoded = verifyToken(req);
   const messageId = req.params.messageId;
   const { reactionType } = req.body;
